@@ -1,0 +1,31 @@
+Arduino		Composant	Autre
+-------		---------	-----
+
+		## DHT11
+D2		gauche
+		milieu		+5v
+		droite		GND
+
+		## RTC
+D5		CLK
+D6		DAT
+D7		RST
+		GND		GND
+		VCC		+5V
+
+		## Bouton
+D8		Sortie		1k --> GND
+		Entrée		+5V
+
+		## SD Card Reader
+D10		CS
+D11		MOSI
+D12		SCK
+D13		MISO
+		GND		GND
+		+5V		+5V
+		3.3V
+
+		## Capteur luminosité
+		Entrée		+5V
+A0		Sortie		10k --> GND
