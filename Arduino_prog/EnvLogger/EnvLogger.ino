@@ -4,23 +4,24 @@
 #include <SD.h>
 #include <EEPROM.h>
 
-dht11 DHT11;
+// PIN et objet pour le capteur de temperature et humidité (DHT11)
 #define DHT11PIN 2
+dht11 DHT11;
 
-/* Set the appropriate digital I/O pin connections */
-uint8_t CE_PIN   = 7;
-uint8_t IO_PIN   = 6;
-uint8_t SCLK_PIN = 5;
+// definition des PIN pour le module RTC et objet DS1302
+const uint8_t CE_PIN   = 7;
+const uint8_t IO_PIN   = 6;
+const uint8_t SCLK_PIN = 5;
+DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);
 
 /* Create buffers */
 char bufTime[20];
 String bufData = "";
 
-/* Create a DS1302 object */
-DS1302 rtc(CE_PIN, IO_PIN, SCLK_PIN);
-
 const int chipSelect = 10;
 const int INIT_BUTTON = 8;
+
+// pour la capteur de luminosité
 const int LIGHT_PIN = A0;
 int minValueLight=1023;
 int maxValueLight=0;
@@ -39,7 +40,7 @@ void read_time()
   Time t = rtc.time();
 
   /* Format the time and date and insert into the temporary buffer */
-  snprintf(bufTime, sizeof(bufTime), "%04d-%02d-%02d %02d:%02d:%02d",
+  snprintf(bufTime, sizeof(bufTime), "%04d-%02d-%02d;%02d:%02d:%02d",
            t.yr, t.mon, t.date,
            t.hr, t.min, t.sec);
 }
@@ -81,7 +82,7 @@ void log_data_line()
   
   // open the file. note that only one file can be open at a time,
   // so you have to close this one before opening another.
-  File dataFile = SD.open("datalog.txt", FILE_WRITE);
+  File dataFile = SD.open("cavedata.log", FILE_WRITE);
 
   // if the file is available, write to it:
   if (dataFile) {
@@ -102,6 +103,27 @@ void log_data_line()
     }
   }
 }
+
+/*------------------------------ READ ALL DATA ----------------------------- */
+void ReadAllDataToSerial()
+{
+  // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  File dataFile = SD.open("cavedata.log");
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    while (dataFile.available()) {
+      Serial.write(dataFile.read());
+    }
+    dataFile.close();
+  }  
+  // if the file isn't open, pop up an error:
+  else {
+    Serial.println("error opening datalog.txt");
+  } 
+}
+
 
 
 /*------------------------------ INIT ----------------------------- */
