@@ -18,6 +18,7 @@ D8		Sortie		1k --> GND
 		Entrée		+5V
 
 		## SD Card Reader
+GND		GND		(celui à coté des bornes numeriques)
 D10		CS
 D11		MOSI
 D12		SCK
@@ -26,6 +27,14 @@ D13		MISO
 		+5V		+5V
 		3.3V
 
+
 		## Capteur luminosité
 		Entrée		+5V
 A0		Sortie		10k --> GND
+
+	
+		## Module Bluetooth
+		VCC		+5V
+		GND		GND
+RX(D0)		TX		
+TX(1)		RX		
