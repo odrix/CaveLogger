@@ -40,7 +40,7 @@ void read_time()
   Time t = rtc.time();
 
   /* Format the time and date and insert into the temporary buffer */
-  snprintf(bufTime, sizeof(bufTime), "%04d-%02d-%02d;%02d:%02d:%02d",
+  snprintf(bufTime, sizeof(bufTime), "%04d-%02d-%02d %02d:%02d:%02d",
            t.yr, t.mon, t.date,
            t.hr, t.min, t.sec);
 }
@@ -51,7 +51,7 @@ void read_temperature_humidity()
 
   if(chk==0)
   {
-    bufData += ";" + String(DHT11.humidity, DEC) + ";" + String(DHT11.temperature, DEC);
+    bufData += "'h':" + String(DHT11.humidity, DEC) + ",'t':" + String(DHT11.temperature, DEC);
   }
   else
   {
@@ -68,7 +68,7 @@ void read_light()
 {
    int value = analogRead(LIGHT_PIN);
    int pourcentageLight = map(value, minValueLight, maxValueLight, 5, 95);
-   bufData += ";" + String(pourcentageLight);
+   bufData += ",'l':" + String(pourcentageLight) + "}";
 }
 
 
@@ -76,7 +76,9 @@ void read_light()
 /*------------------------------ LOG DATA ----------------------------- */
 void log_data_line()
 {
+  Serial.print("{'d':");
   Serial.print(bufTime);
+  Serial.print(", ");
   Serial.println(bufData);
   log_ok=!log_ok;
   
@@ -86,7 +88,9 @@ void log_data_line()
 
   // if the file is available, write to it:
   if (dataFile) {
+    dataFile.print("{'d':");
     dataFile.print(bufTime);
+    dataFile.print(", ");
     dataFile.println(bufData);
     dataFile.close();
     bufData = "";
@@ -220,5 +224,5 @@ void loop()
   read_light();
   log_data_line();
   
-  delay(10000);
+  delay(100);
 }
