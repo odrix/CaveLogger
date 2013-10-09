@@ -69,15 +69,15 @@ function trace(data) {
         .style("text-anchor", "end")
         .text("Temperature (°C)");
 
+    svg = svg.datum(data);
+
     // traçage de la courbe des temperatures
     svg.append("path")
-        .datum(data)
         .attr("class", "temperature")
         .attr("d", lineTemperature);
 
     // traçage de la courbe de l'hygromètrie
     svg.append("path")
-        .datum(data)
         .attr("class", "hygrometrie")
         .attr("d", lineHygrometrie);
 }
