@@ -12,17 +12,19 @@ var yAxis = d3.svg.axis().scale(y).orient("left");
 
 var line = d3.svg.line()
     .x(function (d) { return x(d.d); })
-    .y(function (d) { return y(d.t); });
+    .y(function (d) { return y(d.t); })
+    .interpolate('basis');
 
-var svg = d3.select("#caveChart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+var svg = d3.select("body").append("svg")
+    .attr("width", width )
+    .attr("height", height)
+    .attr('class', 'mainGraph')
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
 
-d3.json("Data/CAVEDATA.LOG", function (error, json) {
+d3.json("/Data/CAVEDATA.ENV", function (error, json) {
     if (error) return console.warn(error);
 	$(json).each(function (i,item) {
 		item.d = parseDate(item.d);
@@ -33,7 +35,10 @@ d3.json("Data/CAVEDATA.LOG", function (error, json) {
 function trace(data) {
 
     x.domain(d3.extent(data, function (d) { return d.d; }));
-    y.domain(d3.extent(data, function (d) { return d.t; }));
+    var o = d3.extent(data, function (d) { return d.t; });
+    o[0] = parseInt(o[0]) - 10;
+    o[1] = parseInt(o[1]) + 10;
+    y.domain(o);
 
     svg.append("g")
         .attr("class", "x axis")
