@@ -15,6 +15,22 @@
   stroke-width: 1.5px;
 }
 
+.temperature {
+  fill: none;
+  stroke: #f1b423;
+  stroke-width: 1.5px;
+}
+
+.hygrometrie {
+  fill: none;
+  stroke: #2b76b5;
+  stroke-width: 1.5px;
+}
+
+.area {
+  fill: steelblue;
+}
+
 .mainGraph
 {
     border: solid 1px black;
