@@ -24,6 +24,9 @@ var svg = d3.select("#caveChart").append("svg")
 
 d3.json("Data/CAVEDATA.LOG", function (error, json) {
     if (error) return console.warn(error);
+	$(json).each(function (i,item) {
+		item.d = parseDate(item.d);
+	});
     trace(json);
 });
 
