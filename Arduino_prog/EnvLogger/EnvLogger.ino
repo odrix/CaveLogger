@@ -17,7 +17,7 @@ const int NB_WDT_FOR_MINUTE = 7;
 #define DHT11PIN 2
 dht11 DHT11;
 
-// definition des PIN pour le module RTC et objet DS1302
+// definition des PINs pour le module RTC et objet DS1302
 const uint8_t CE_PIN   = 7;
 const uint8_t IO_PIN   = 6;
 const uint8_t SCLK_PIN = 5;
